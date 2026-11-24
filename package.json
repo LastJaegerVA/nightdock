@@ -22,7 +22,7 @@
     "resedit": "^1.7.2"
   },
   "build": {
-    "appId": "no.jonas.nightdock",
+    "appId": "io.github.lastjaegerva.nightdock",
     "productName": "Nightdock",
     "artifactName": "Nightdock-${version}-${os}-${arch}.${ext}",
     "files": [
