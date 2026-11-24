@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.3.4 — 2026-11-24
+
+- The author and publisher name is now LastJaegerVA (installer, app details, Linux packages, license).
+
 ## 1.3.3
 
 - The Fedora/openSUSE `.rpm` package is back in the release.
