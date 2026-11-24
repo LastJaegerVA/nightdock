@@ -91,7 +91,7 @@ then open a terminal in the folder you saved it to (usually `cd ~/Downloads`):
 |---|---|---|
 | CachyOS, Arch, Manjaro | `nightdock-<version>-x86_64.pkg.tar.xz` | `sudo pacman -U ./nightdock-*.pkg.tar.xz` |
 | Ubuntu, Mint, Pop!_OS, Debian | `nightdock_<version>_amd64.deb` | `sudo apt install ./nightdock_*.deb` |
-| Fedora | `nightdock-<version>.x86_64.rpm` | `sudo dnf install ./nightdock-*.rpm` |
+| Fedora | `nightdock-<version>.x86_64.rpm` | `sudo dnf install ./nightdock*.rpm` |
 | Any other Linux | `Nightdock-<version>-linux-x86_64.AppImage` | `chmod +x Nightdock-*.AppImage && ./Nightdock-*.AppImage` |
 
 If the AppImage won't start, run it with `--appimage-extract-and-run` (your system is missing `libfuse2`).
