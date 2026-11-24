@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.3.1
+
+- One-command Linux install: `install.sh` downloads the newest release and installs the right
+  package for your system (pacman, apt, dnf/zypper or AppImage).
+- Clearer install steps in the README.
+- Fixed the GitHub build so the Linux packages are published.
+
 ## 1.3.0
 
 - 32 languages, picked automatically from your computer: added Icelandic, Finnish, Dutch,
