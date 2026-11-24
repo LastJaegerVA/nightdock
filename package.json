@@ -14,7 +14,7 @@
   "scripts": {
     "start": "electron .",
     "dist:win": "electron-builder --win dir && python3 build/make-installer.py dist/win-unpacked $npm_package_version dist/Nightdock-Setup-$npm_package_version.exe && cd dist/win-unpacked && zip -qr9 ../Nightdock-Portable-$npm_package_version-windows.zip .",
-    "dist:linux": "electron-builder --linux AppImage tar.gz deb rpm pacman"
+    "dist:linux": "electron-builder --linux dir && for t in AppImage tar.gz deb pacman rpm; do electron-builder --linux $t --prepackaged dist/linux-unpacked || exit 1; done"
   },
   "devDependencies": {
     "electron": "^33.2.0",

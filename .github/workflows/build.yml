@@ -36,8 +36,26 @@ jobs:
       - name: Build for Windows
         run: npm run dist:win
 
-      - name: Build for Linux
-        run: npm run dist:linux
+      # The Linux formats are built one at a time: building them in parallel makes
+      # them clash over temporary files.
+      - name: Build Linux app folder
+        run: npx electron-builder --linux dir
+
+      - name: Build AppImage and tar.gz
+        run: |
+          npx electron-builder --linux AppImage --prepackaged dist/linux-unpacked
+          npx electron-builder --linux tar.gz --prepackaged dist/linux-unpacked
+
+      - name: Build .deb (Debian, Ubuntu, Mint)
+        run: npx electron-builder --linux deb --prepackaged dist/linux-unpacked
+
+      - name: Build .pkg.tar.xz (Arch, CachyOS, Manjaro)
+        run: npx electron-builder --linux pacman --prepackaged dist/linux-unpacked
+
+      # A broken .rpm shouldn't stop the release for everyone else.
+      - name: Build .rpm (Fedora, openSUSE)
+        continue-on-error: true
+        run: npx electron-builder --linux rpm --prepackaged dist/linux-unpacked
 
       - name: Keep the files
         uses: actions/upload-artifact@v4
