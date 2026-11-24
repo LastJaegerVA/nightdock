@@ -42,16 +42,27 @@ and puts them on one screen. Click a tile and that launcher opens.
 
 ## Download and install
 
-Get the newest version from the [**Releases**](../../releases/latest) page.
+### Linux — one command
 
-| Your system | File | How |
-|---|---|---|
-| Windows 10/11 | `Nightdock-Setup-<version>.exe` | Run it. No administrator rights needed. |
-| Windows, no install | `Nightdock-Portable-<version>-windows.zip` | Unzip and run `Nightdock.exe`. |
-| CachyOS, Arch, Manjaro | `nightdock-<version>-x86_64.pkg.tar.xz` | `sudo pacman -U nightdock-*.pkg.tar.xz` |
-| Ubuntu, Mint, Pop!_OS, Debian | `nightdock_<version>_amd64.deb` | Double-click it, or `sudo apt install ./nightdock_*.deb` |
-| Fedora, openSUSE | `nightdock-<version>.x86_64.rpm` | Double-click it, or `sudo dnf install ./nightdock-*.rpm` |
-| Any other Linux | `Nightdock-<version>-linux-x86_64.AppImage` | Make it executable and run it. If it won't start, run it with `--appimage-extract-and-run`. |
+Open a terminal and paste:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/LastJaegerVA/nightdock/main/install.sh | bash
+```
+
+It downloads the newest release and installs the right package for your system
+(pacman on Arch/CachyOS/Manjaro, apt on Debian/Ubuntu/Mint, dnf or zypper on Fedora/openSUSE,
+or an AppImage anywhere else). It asks for your password to install. To remove Nightdock later:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/LastJaegerVA/nightdock/main/install.sh | bash -s -- --uninstall
+```
+
+### Windows
+
+Download **`Nightdock-Setup-<version>.exe`** from the [**latest release**](../../releases/latest) and run it.
+No administrator rights needed. Prefer no install? Get `Nightdock-Portable-<version>-windows.zip`,
+unzip it and run `Nightdock.exe`.
 
 > **Windows says "Windows protected your PC"?** That happens because Nightdock isn't signed
 > with a paid code-signing certificate yet. Click **More info → Run anyway**. You can check the
@@ -59,6 +70,20 @@ Get the newest version from the [**Releases**](../../releases/latest) page.
 
 Uninstall from Windows **Settings → Apps**. The uninstaller asks whether to keep your launchers
 and settings.
+
+### Linux — by hand
+
+First download the file for your system from the [**latest release**](../../releases/latest),
+then open a terminal in the folder you saved it to (usually `cd ~/Downloads`):
+
+| Your system | File | Command |
+|---|---|---|
+| CachyOS, Arch, Manjaro | `nightdock-<version>-x86_64.pkg.tar.xz` | `sudo pacman -U ./nightdock-*.pkg.tar.xz` |
+| Ubuntu, Mint, Pop!_OS, Debian | `nightdock_<version>_amd64.deb` | `sudo apt install ./nightdock_*.deb` |
+| Fedora | `nightdock-<version>.x86_64.rpm` | `sudo dnf install ./nightdock-*.rpm` |
+| Any other Linux | `Nightdock-<version>-linux-x86_64.AppImage` | `chmod +x Nightdock-*.AppImage && ./Nightdock-*.AppImage` |
+
+If the AppImage won't start, run it with `--appimage-extract-and-run` (your system is missing `libfuse2`).
 
 ## Languages
 

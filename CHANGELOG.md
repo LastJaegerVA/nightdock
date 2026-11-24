@@ -9,6 +9,7 @@
 - Right-to-left layout for Arabic, Hebrew and Persian.
 - Correct plural forms for every language.
 - The Windows installer speaks 31 languages.
+- One-command Linux install: `install.sh` picks the right package for your system.
 
 ## 1.2.0
 
