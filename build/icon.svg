@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0.35" y2="1">
+      <stop offset="0" stop-color="#1b1f4b"/>
+      <stop offset="0.55" stop-color="#2c2470"/>
+      <stop offset="1" stop-color="#4a2a8c"/>
+    </linearGradient>
+    <linearGradient id="shell" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#cfd5ff"/>
+    </linearGradient>
+    <linearGradient id="door" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffd36b"/>
+      <stop offset="1" stop-color="#ff6a7e"/>
+    </linearGradient>
+    <linearGradient id="beam" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffb36b" stop-opacity="0.75"/>
+      <stop offset="1" stop-color="#ff6a9a" stop-opacity="0"/>
+    </linearGradient>
+    <radialGradient id="halo" cx="0.5" cy="0.72" r="0.45">
+      <stop offset="0" stop-color="#ff8a7a" stop-opacity="0.45"/>
+      <stop offset="1" stop-color="#ff8a7a" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect x="16" y="16" width="480" height="480" rx="116" fill="url(#sky)"/>
+  <rect x="16" y="16" width="480" height="480" rx="116" fill="url(#halo)"/>
+  <!-- stars -->
+  <circle cx="118" cy="112" r="7" fill="#ffffff" opacity="0.9"/>
+  <circle cx="392" cy="96" r="5" fill="#ffffff" opacity="0.7"/>
+  <circle cx="352" cy="150" r="4" fill="#ffffff" opacity="0.55"/>
+  <circle cx="168" cy="160" r="3.5" fill="#ffffff" opacity="0.5"/>
+  <!-- light spilling onto the ground -->
+  <path d="M206 372 L306 372 L392 470 L120 470 Z" fill="url(#beam)"/>
+  <!-- hangar shell (quonset arch) -->
+  <path d="M84 372 L84 336 A172 150 0 0 1 428 336 L428 372 Z" fill="url(#shell)"/>
+  <!-- arch ribs -->
+  <path d="M150 372 L150 326 A106 104 0 0 1 362 326 L362 372" fill="none" stroke="#9aa3e6" stroke-width="8" stroke-linecap="round" opacity="0.55"/>
+  <!-- open door, glowing -->
+  <path d="M206 372 L206 296 Q206 270 232 270 L280 270 Q306 270 306 296 L306 372 Z" fill="url(#door)"/>
+  <!-- play mark inside door -->
+  <path d="M241 299 Q241 290 249 294 L285 316 Q292 321 285 326 L249 348 Q241 352 241 343 Z" fill="#ffffff" opacity="0.95"/>
+  <!-- ground line -->
+  <rect x="64" y="370" width="384" height="10" rx="5" fill="#e9ecff"/>
+</svg>
