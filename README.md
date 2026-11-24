@@ -42,7 +42,18 @@ and puts them on one screen. Click a tile and that launcher opens.
 
 ## Download and install
 
-### Linux — one command
+### CachyOS, Arch, Manjaro — one pacman command
+
+Open a terminal and paste:
+
+```bash
+curl -fLO https://github.com/LastJaegerVA/nightdock/releases/latest/download/nightdock-x86_64.pkg.tar.xz && sudo pacman -U nightdock-x86_64.pkg.tar.xz
+```
+
+It downloads the newest Nightdock package and installs it with pacman. Run the same command
+again to update. Remove it with `sudo pacman -R nightdock`.
+
+### Any Linux — one command
 
 Open a terminal and paste:
 
@@ -60,7 +71,7 @@ curl -fsSL https://raw.githubusercontent.com/LastJaegerVA/nightdock/main/install
 
 ### Windows
 
-Download **`Nightdock-Setup-<version>.exe`** from the [**latest release**](../../releases/latest) and run it.
+Download [**`Nightdock-Setup.exe`**](https://github.com/LastJaegerVA/nightdock/releases/latest/download/Nightdock-Setup.exe) (always the newest version) and run it.
 No administrator rights needed. Prefer no install? Get `Nightdock-Portable-<version>-windows.zip`,
 unzip it and run `Nightdock.exe`.
 
