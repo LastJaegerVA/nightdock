@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.3.2
+
+- One pacman command for CachyOS, Arch and Manjaro, using a download link that always points
+  to the newest version.
+- Every release also has version-free file names (`Nightdock-Setup.exe`,
+  `nightdock-x86_64.pkg.tar.xz`, `nightdock_amd64.deb`, `Nightdock-x86_64.AppImage`).
+- Fedora/openSUSE `.rpm` builds again.
+- `install.sh` falls back to the AppImage when a release has no package for your system.
+- Releases are published automatically when the version number goes up.
+
 ## 1.3.1
 
 - One-command Linux install: `install.sh` downloads the newest release and installs the right
