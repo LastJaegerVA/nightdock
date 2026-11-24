@@ -130,7 +130,9 @@
       "artifactName": "nightdock-${version}.x86_64.${ext}",
       "fpm": [
         "--rpm-compression",
-        "gzip"
+        "gzip",
+        "--rpm-rpmbuild-define",
+        "_build_id_links none"
       ]
     },
     "afterPack": "build/afterPack.js",

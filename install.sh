@@ -61,10 +61,7 @@ urls=$(printf '%s' "$release" | grep -o '"browser_download_url": *"[^"]*"' | sed
 version=$(printf '%s' "$release" | grep -o '"tag_name": *"[^"]*"' | head -n1 | sed 's/.*"\([^"]*\)"$/\1/')
 
 pick() {
-  local url
-  url=$(printf '%s\n' "$urls" | grep -E "$1" | head -n1 || true)
-  [ -n "$url" ] || die "This release has no $2 file. Download another format from https://github.com/$REPO/releases"
-  echo "$url"
+  printf '%s\n' "$urls" | grep -E "$1" | head -n1 || true
 }
 
 tmp=$(mktemp -d)
@@ -79,27 +76,40 @@ fetch() {
 need_root() { [ -n "$SUDO" ] || [ "$(id -u)" -eq 0 ] || die "This needs administrator rights (sudo). Or run: NIGHTDOCK_FORMAT=appimage bash install.sh"; }
 
 format=$(detect_format)
+# If this release has no package for this system, use the AppImage instead.
+case "$format" in
+  pacman) want='\.pkg\.tar\.(xz|zst)$' ;;
+  deb) want='\.deb$' ;;
+  rpm) want='\.rpm$' ;;
+  *) want='\.AppImage$' ;;
+esac
+if [ -z "$(pick "$want")" ] && [ "$format" != appimage ]; then
+  say "This release has no $format package, so Nightdock will be installed as an AppImage instead."
+  format=appimage
+fi
+[ -n "$(pick "$want")" ] || [ "$format" = appimage ] || die "No suitable download in this release."
+[ "$format" != appimage ] || [ -n "$(pick '\.AppImage$')" ] || die "This release has no AppImage. See https://github.com/$REPO/releases"
 say "Installing Nightdock ${version:-} ($format)…"
 case "$format" in
   pacman)
     need_root
-    file=$(fetch "$(pick '\.pkg\.tar\.(xz|zst)$' 'Arch/pacman')")
+    file=$(fetch "$(pick '\.pkg\.tar\.(xz|zst)$')")
     if pacman -Q hangar >/dev/null 2>&1; then say "Removing the old Hangar version…"; $SUDO pacman -R --noconfirm hangar; fi
     $SUDO pacman -U --noconfirm "$file"
     ;;
   deb)
     need_root
-    file=$(fetch "$(pick '\.deb$' '.deb')")
+    file=$(fetch "$(pick '\.deb$')")
     $SUDO apt-get install -y "$file"
     ;;
   rpm)
     need_root
-    file=$(fetch "$(pick '\.rpm$' '.rpm')")
+    file=$(fetch "$(pick '\.rpm$')")
     if command -v dnf >/dev/null 2>&1; then $SUDO dnf install -y "$file"
     else $SUDO zypper --non-interactive install --allow-unsigned-rpm "$file"; fi
     ;;
   appimage)
-    file=$(fetch "$(pick '\.AppImage$' 'AppImage')")
+    file=$(fetch "$(pick '\.AppImage$')")
     mkdir -p "$APPIMAGE_DIR" "$(dirname "$DESKTOP_FILE")" "$(dirname "$ICON_FILE")"
     install -m 755 "$file" "$APPIMAGE_DIR/Nightdock.AppImage"
     curl -fsSL -o "$ICON_FILE" "https://raw.githubusercontent.com/$REPO/main/docs/icon.png" || true
