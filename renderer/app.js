@@ -58,7 +58,18 @@ const THEMES = [
   { id: 'solarized', name: 'Solarized', light: true, bg: '#fdf6e3', a: 'rgba(255,251,240,.96)', b: '#268bd2', accent: '#268bd2' },
   { id: 'sakura', name: 'Sakura', light: true, bg: '#fdf1f4', a: '#ffffff', b: '#e8559a', accent: '#e8559a' },
   { id: 'arctic', name: 'Arctic', light: true, bg: '#eef5fa', a: '#ffffff', b: '#2f7bff', accent: '#2f7bff' },
+  // Themes that come with a matching wallpaper (renderer/wallpapers/<id>.svg)
+  { id: 'nordlys', name: 'Nordlys', light: false, accent: '#3ddc97', wallpaper: 'nordlys' },
+  { id: 'fjord', name: 'Fjord', light: false, accent: '#ffad7a', wallpaper: 'fjord' },
+  { id: 'neoncity', name: 'Neon City', light: false, accent: '#3fe8ff', wallpaper: 'neoncity' },
+  { id: 'deepspace', name: 'Deep Space', light: false, accent: '#b36bff', wallpaper: 'deepspace' },
+  { id: 'dunes', name: 'Dunes', light: false, accent: '#ff9a5a', wallpaper: 'dunes' },
+  { id: 'lava', name: 'Lava', light: false, accent: '#ff5a2b', wallpaper: 'lava' },
+  { id: 'blossom', name: 'Blossom', light: true, accent: '#e0508f', wallpaper: 'blossom' },
+  { id: 'glacier', name: 'Glacier', light: true, accent: '#2f7fc4', wallpaper: 'glacier' },
 ];
+const WALLPAPERS = THEMES.filter((t) => t.wallpaper).map((t) => ({ id: t.wallpaper, name: t.name }));
+const wallUrl = (id) => `wallpapers/${id}.svg`;
 const ACCENTS = ['#7c8cff', '#5b8cff', '#2fb8ff', '#22c3a6', '#4cc76a', '#f5b83d', '#ff8a3d', '#ff5f6d', '#ff5fa8', '#b36bff'];
 const TILE_COLORS = ['#2a475e', '#0a6cff', '#7c3aed', '#e0457b', '#ff4747', '#f08c00', '#e0a000', '#2fa36b', '#0f9fb5', '#4b5563'];
 const tr = (k, v) => window.i18n.t(k, v);
@@ -194,9 +205,13 @@ function applyAppearance() {
   document.documentElement.style.setProperty('--on-accent', onAccent(s.accent));
   document.body.classList.toggle('no-subs', !s.showSubtitles);
   document.body.classList.toggle('no-anim', !s.animations);
-  $('#bg').style.setProperty('--dim', String(s.bgDim / 100));
-  if (s.background === 'image' && s.bgImage) {
-    hub.fileUrl(s.bgImage).then((u) => { $('#bg .bg-image').style.backgroundImage = u ? `url("${u}")` : ''; });
+  $('#bg').style.setProperty('--dim', String((s.background === 'wallpaper' ? s.wallDim : s.bgDim) / 100));
+  const pic = $('#bg .bg-image');
+  if (s.background === 'wallpaper') {
+    const w = WALLPAPERS.find((x) => x.id === s.wallpaper) || WALLPAPERS[0];
+    pic.style.backgroundImage = `url("${wallUrl(w.id)}")`;
+  } else if (s.background === 'image' && s.bgImage) {
+    hub.fileUrl(s.bgImage).then((u) => { pic.style.backgroundImage = u ? `url("${u}")` : ''; });
   }
 }
 
@@ -511,8 +526,16 @@ function renderSettings() {
     b.className = `theme ${s.theme === t.id ? 'on' : ''}`;
     const tname = themeName(t);
     b.title = `${tname}${t.light ? ' ' + tr('theme.lightSuffix') : ''}`;
-    b.innerHTML = `<div class="pv" style="background:${t.bg}"><i style="background:${t.a}"></i><i style="background:${t.a}; opacity:.7"></i><i style="background:${t.b}"></i></div><span class="tn">${esc(tname)}</span>`;
-    b.addEventListener('click', () => { s.theme = t.id; s.accent = t.accent; commitSettings(); });
+    b.innerHTML = t.wallpaper
+      ? `<div class="pv wp" style="background-image:url('${wallUrl(t.wallpaper)}')"><i style="background:${t.accent}"></i></div><span class="tn">${esc(tname)}</span>`
+      : `<div class="pv" style="background:${t.bg}"><i style="background:${t.a}"></i><i style="background:${t.a}; opacity:.7"></i><i style="background:${t.b}"></i></div><span class="tn">${esc(tname)}</span>`;
+    b.addEventListener('click', () => {
+      // A wallpaper theme brings its wallpaper along; leaving one goes back to the glow.
+      const wasOwnWall = s.background === 'wallpaper' && THEMES.some((x) => x.id === s.theme && x.wallpaper === s.wallpaper);
+      s.theme = t.id; s.accent = t.accent;
+      if (t.wallpaper) { s.background = 'wallpaper'; s.wallpaper = t.wallpaper; } else if (wasOwnWall) s.background = 'aurora';
+      commitSettings();
+    });
     themes.append(b);
   }
   const acc = $('#accentSwatches');
@@ -533,9 +556,19 @@ function renderSettings() {
   $$('#bgSeg button').forEach((b) => b.classList.toggle('on', b.dataset.v === s.background));
   $$('#afterSeg button').forEach((b) => b.classList.toggle('on', b.dataset.v === s.afterLaunch));
   $('#bgImageRow').hidden = s.background !== 'image';
-  $('#bgDimRow').hidden = s.background !== 'image';
+  $('#bgDimRow').hidden = s.background !== 'image' && s.background !== 'wallpaper';
+  $('#wallRow').hidden = s.background !== 'wallpaper';
+  const walls = $('#walls');
+  walls.innerHTML = '';
+  for (const w of WALLPAPERS) {
+    const b = document.createElement('button');
+    b.className = `wall ${s.wallpaper === w.id ? 'on' : ''}`; b.title = w.name; b.setAttribute('aria-label', w.name);
+    b.style.backgroundImage = `url('${wallUrl(w.id)}')`;
+    b.addEventListener('click', () => { s.background = 'wallpaper'; s.wallpaper = w.id; commitSettings(); });
+    walls.append(b);
+  }
   $('#bgImageName').textContent = s.bgImage ? tr('set.bgPic.chosen') : tr('set.bgPic.none');
-  setRange($('#bgDim'), s.bgDim);
+  setRange($('#bgDim'), s.background === 'wallpaper' ? s.wallDim : s.bgDim);
   setRange($('#cardSize'), s.cardSize);
   for (const k of ['showSubtitles', 'animations', 'closeToTray', 'startWithSystem', 'startHidden']) $(`#${k}`).checked = !!s[k];
   $('#about').textContent = `Nightdock ${window.__version || ''} · ${platform === 'win32' ? 'Windows' : 'Linux'} · ${tr('lib.count', { n: allEntries().length })}`;
@@ -603,7 +636,11 @@ function wire() {
     $(`#${id}`).addEventListener('input', (ev) => { cfg.settings[key] = +ev.target.value; setRange(ev.target, +ev.target.value); applyAppearance(); });
     $(`#${id}`).addEventListener('change', () => save());
   };
-  live('bgDim', 'bgDim'); live('cardSize', 'cardSize');
+  $('#bgDim').addEventListener('input', (ev) => {
+    cfg.settings[cfg.settings.background === 'wallpaper' ? 'wallDim' : 'bgDim'] = +ev.target.value; setRange(ev.target, +ev.target.value); applyAppearance();
+  });
+  $('#bgDim').addEventListener('change', () => save());
+  live('cardSize', 'cardSize');
   for (const k of ['showSubtitles', 'animations', 'closeToTray', 'startWithSystem', 'startHidden']) {
     $(`#${k}`).addEventListener('change', (ev) => { cfg.settings[k] = ev.target.checked; commitSettings(); });
   }

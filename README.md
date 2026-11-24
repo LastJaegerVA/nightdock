@@ -32,12 +32,12 @@ and puts them on one screen. Click a tile and that launcher opens.
 - **Fast to use** — type to search and press Enter, star favourites, drag tiles into your own order
 - **Jump back in** — the launcher you used last waits at the top
 - **Gets out of the way** — after opening a launcher it can stay open, minimize, hide in the tray or close
-- **Make it yours** — 18 themes, any accent colour, a glow, plain or picture background, bigger or smaller tiles, grid or list view
+- **Make it yours** — 26 themes (8 with their own matching wallpaper), any accent colour, a glow, plain, wallpaper or picture background, bigger or smaller tiles, grid or list view
 - **Speaks your language** — 32 languages, picked automatically from your computer (and right-to-left for Arabic, Hebrew and Persian)
 
 <p align="center">
   <img src="docs/screenshots/settings.png" width="49%" alt="Settings with themes and accent colours">
-  <img src="docs/screenshots/theme-dracula.png" width="49%" alt="Nightdock in the Dracula theme">
+  <img src="docs/screenshots/theme-nordlys.png" width="49%" alt="Nightdock in the Nordlys theme with its northern lights wallpaper">
 </p>
 
 ## Download and install

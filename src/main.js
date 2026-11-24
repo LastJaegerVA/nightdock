@@ -41,7 +41,7 @@ const DEFAULTS = {
   lastUsed: {},
   launchCount: {},
   settings: {
-    language: 'auto', theme: 'midnight', accent: '#7c8cff', background: 'aurora', bgImage: '', bgDim: 55,
+    language: 'auto', theme: 'midnight', accent: '#7c8cff', background: 'aurora', bgImage: '', bgDim: 55, wallpaper: 'nordlys', wallDim: 20,
     cardSize: 180, view: 'grid', sort: 'manual', showSubtitles: true, animations: true,
     afterLaunch: 'minimize', closeToTray: false, startWithSystem: false, startHidden: false,
   },

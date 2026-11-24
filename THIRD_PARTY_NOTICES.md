@@ -20,6 +20,11 @@ open-source work listed below. Each keeps its own license.
 | [NSIS](https://nsis.sourceforge.io/) | The Windows installer | zlib/libpng license |
 | [resedit](https://github.com/jet2jet/resedit-js) | Setting the Windows icon and version info | MIT |
 
+## Wallpapers
+
+The wallpapers in `renderer/wallpapers/` (Nordlys, Fjord, Neon City, Deep Space, Dunes, Lava,
+Blossom, Glacier) were made for Nightdock and are covered by Nightdock's own MIT License.
+
 ## Colour themes
 
 Some of Nightdock's themes are inspired by well-known open-source colour schemes. Nightdock

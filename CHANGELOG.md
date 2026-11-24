@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.4.0 — 2026-11-24
+
+- 8 new themes, each with its own matching wallpaper: Nordlys, Fjord, Neon City, Deep Space, Dunes, Lava, Blossom and Glacier (26 themes in all).
+- New "Wallpaper" background: pick any of the 8 wallpapers with any theme, and choose how much to darken it.
+
 ## 1.3.5 — 2026-11-24
 
 - Copyright is now "Jonas Olsen-Sund (LastJaegerVA)" in the installer and app details.
