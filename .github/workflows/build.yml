@@ -1,0 +1,68 @@
+name: Build
+
+# Builds Nightdock for Windows and Linux.
+# - Every push and pull request: build and keep the files as a downloadable artifact.
+# - Pushing a version tag (for example v1.3.0): also create a GitHub Release with all files.
+
+on:
+  push:
+    branches: [main]
+    tags: ["v*"]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install build tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y nsis rpm libarchive-tools zip
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build for Windows
+        run: npm run dist:win
+
+      - name: Build for Linux
+        run: npm run dist:linux
+
+      - name: Keep the files
+        uses: actions/upload-artifact@v4
+        with:
+          name: nightdock-${{ github.sha }}
+          path: |
+            dist/*.exe
+            dist/*.zip
+            dist/*.AppImage
+            dist/*.deb
+            dist/*.rpm
+            dist/*.pkg.tar.xz
+            dist/*.tar.gz
+          if-no-files-found: error
+
+      - name: Publish release
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          generate_release_notes: true
+          files: |
+            dist/*.exe
+            dist/*.zip
+            dist/*.AppImage
+            dist/*.deb
+            dist/*.rpm
+            dist/*.pkg.tar.xz
+            dist/*.tar.gz

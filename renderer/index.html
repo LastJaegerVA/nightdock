@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="midnight">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; img-src 'self' data: file:; style-src 'self' 'unsafe-inline'; font-src 'self'; script-src 'self'" />
+  <title>Nightdock</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="bg"><div class="bg-image"></div><div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div><div class="bg-dim"></div></div>
+
+  <header class="titlebar">
+    <div class="brand">
+      <div class="logo" aria-hidden="true"><svg viewBox="0 0 24 24"><defs><linearGradient id="lgDoor" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffd36b"/><stop offset="1" stop-color="#ff6a7e"/></linearGradient></defs><path d="M3.5 18.5V16.6A8.5 7.4 0 0 1 20.5 16.6V18.5Z" fill="#eef0ff"/><path d="M9.6 18.5V14.4Q9.6 13 11 13H13Q14.4 13 14.4 14.4V18.5Z" fill="url(#lgDoor)"/><rect x="2.5" y="18.2" width="19" height="1.6" rx=".8" fill="#eef0ff"/></svg></div>
+      <span>Nightdock</span>
+    </div>
+    <div class="win-controls">
+      <button data-win="min" data-i18n-title="win.min"><svg viewBox="0 0 12 12"><path d="M2 6h8"/></svg></button>
+      <button data-win="max" data-i18n-title="win.max" id="maxBtn"><svg viewBox="0 0 12 12"><rect x="2" y="2" width="8" height="8" rx="1.2"/></svg></button>
+      <button data-win="close" class="close" data-i18n-title="win.close"><svg viewBox="0 0 12 12"><path d="M2.5 2.5l7 7M9.5 2.5l-7 7"/></svg></button>
+    </div>
+  </header>
+
+  <div class="shell">
+    <aside class="sidebar">
+      <nav>
+        <button class="nav active" data-view="library"><i data-icon="grid"></i><span data-i18n="nav.library">Library</span><em id="countAll"></em></button>
+        <button class="nav" data-view="favorites"><i data-icon="star"></i><span data-i18n="nav.favorites">Favorites</span><em id="countFav"></em></button>
+        <button class="nav" data-view="recent"><i data-icon="clock"></i><span data-i18n="nav.recent">Recently opened</span></button>
+        <button class="nav" data-view="hidden"><i data-icon="eyeOff"></i><span data-i18n="nav.hidden">Hidden</span><em id="countHidden"></em></button>
+      </nav>
+      <div class="side-label" data-i18n="side.quick">Quick launch</div>
+      <div id="quick" class="quick"></div>
+      <div class="spacer"></div>
+      <button class="side-add" id="sideAdd"><i data-icon="plus"></i><span data-i18n="side.add">Add launcher</span></button>
+      <button class="nav" data-view="settings"><i data-icon="settings"></i><span data-i18n="nav.settings">Settings</span></button>
+    </aside>
+
+    <main id="main">
+      <!-- LIBRARY -->
+      <section id="libraryView">
+        <div class="toolbar">
+          <div class="titles">
+            <h1 id="viewTitle">Library</h1>
+            <p id="viewSub" class="muted"></p>
+          </div>
+          <div class="tools">
+            <label class="search">
+              <i data-icon="search"></i>
+              <input id="search" data-i18n-ph="search.ph" autocomplete="off" spellcheck="false" />
+              <kbd data-i18n="kbd.find">Ctrl F</kbd>
+            </label>
+            <button class="btn ghost" id="sortBtn"><i data-icon="sort"></i><span id="sortLabel">Custom order</span></button>
+            <div class="seg" id="viewSeg">
+              <button data-v="grid" data-i18n-title="tb.grid"><i data-icon="grid"></i></button>
+              <button data-v="list" data-i18n-title="tb.list"><i data-icon="list"></i></button>
+            </div>
+            <button class="btn primary" id="addBtn"><i data-icon="plus"></i><span data-i18n="tb.add">Add</span></button>
+          </div>
+        </div>
+
+        <div id="hero" class="hero" hidden></div>
+        <div class="section-head" id="sectionHead"><span>All launchers</span><span class="muted small" id="dragHint" data-i18n="lib.dragHint">Drag tiles to reorder</span></div>
+        <div id="grid" class="grid"></div>
+        <div id="empty" class="empty" hidden></div>
+      </section>
+
+      <!-- SETTINGS -->
+      <section id="settingsView" hidden>
+        <div class="toolbar"><div class="titles"><h1 data-i18n="set.title">Settings</h1><p class="muted" data-i18n="set.sub">Make Nightdock look and behave the way you like</p></div></div>
+
+        <div class="settings">
+          <div class="group">
+            <h2 data-i18n="set.appearance">Appearance</h2>
+            <div class="row">
+              <div class="label"><b data-i18n="set.language">Language</b><span data-i18n="set.languageDesc"></span></div>
+              <button class="btn" id="langBtn"><i data-icon="globe"></i><span id="langLabel"></span></button>
+            </div>
+            <div class="row col">
+              <div class="label"><b data-i18n="set.theme">Theme</b><span data-i18n="set.themeDesc"></span></div>
+              <div class="themes" id="themes"></div>
+            </div>
+            <div class="row">
+              <div class="label"><b data-i18n="set.accent"></b><span data-i18n="set.accentDesc"></span></div>
+              <div class="swatches" id="accentSwatches"></div>
+            </div>
+            <div class="row">
+              <div class="label"><b data-i18n="set.bg"></b><span data-i18n="set.bgDesc"></span></div>
+              <div class="seg text" id="bgSeg">
+                <button data-v="aurora" data-i18n="set.bg.glow"></button><button data-v="solid" data-i18n="set.bg.plain"></button><button data-v="image" data-i18n="set.bg.picture"></button>
+              </div>
+            </div>
+            <div class="row" id="bgImageRow">
+              <div class="label"><b data-i18n="set.bgPic"></b><span id="bgImageName"></span></div>
+              <div class="inline">
+                <button class="btn" id="bgPick"><i data-icon="image"></i><span data-i18n="set.bgPic.btn"></span></button>
+              </div>
+            </div>
+            <div class="row" id="bgDimRow">
+              <div class="label"><b data-i18n="set.dim"></b><span data-i18n="set.dimDesc"></span></div>
+              <input type="range" min="0" max="90" id="bgDim" />
+            </div>
+            <div class="row">
+              <div class="label"><b data-i18n="set.size"></b><span data-i18n="set.sizeDesc"></span></div>
+              <input type="range" min="130" max="260" step="5" id="cardSize" />
+            </div>
+            <div class="row">
+              <div class="label"><b data-i18n="set.subs"></b><span data-i18n="set.subsDesc"></span></div>
+              <label class="toggle"><input type="checkbox" id="showSubtitles" /><span></span></label>
+            </div>
+            <div class="row">
+              <div class="label"><b data-i18n="set.anim"></b><span data-i18n="set.animDesc"></span></div>
+              <label class="toggle"><input type="checkbox" id="animations" /><span></span></label>
+            </div>
+          </div>
+
+          <div class="group">
+            <h2 data-i18n="set.behaviour"></h2>
+            <div class="row">
+              <div class="label"><b data-i18n="set.after"></b><span data-i18n="set.afterDesc"></span></div>
+              <div class="seg text" id="afterSeg">
+                <button data-v="nothing" data-i18n="set.after.nothing"></button><button data-v="minimize" data-i18n="set.after.minimize"></button><button data-v="tray" data-i18n="set.after.tray"></button><button data-v="quit" data-i18n="set.after.quit"></button>
+              </div>
+            </div>
+            <div class="row">
+              <div class="label"><b data-i18n="set.tray"></b><span data-i18n="set.trayDesc"></span></div>
+              <label class="toggle"><input type="checkbox" id="closeToTray" /><span></span></label>
+            </div>
+            <div class="row">
+              <div class="label"><b data-i18n="set.autostart"></b><span data-i18n="set.autostartDesc"></span></div>
+              <label class="toggle"><input type="checkbox" id="startWithSystem" /><span></span></label>
+            </div>
+            <div class="row">
+              <div class="label"><b data-i18n="set.hidden"></b><span data-i18n="set.hiddenDesc"></span></div>
+              <label class="toggle"><input type="checkbox" id="startHidden" /><span></span></label>
+            </div>
+          </div>
+
+          <div class="group">
+            <h2 data-i18n="set.library"></h2>
+            <div class="row">
+              <div class="label"><b data-i18n="set.rescan"></b><span data-i18n="set.rescanDesc"></span></div>
+              <button class="btn" id="rescanBtn"><i data-icon="refresh"></i><span data-i18n="set.rescanBtn"></span></button>
+            </div>
+            <div class="row">
+              <div class="label"><b data-i18n="set.order"></b><span data-i18n="set.orderDesc"></span></div>
+              <button class="btn" id="resetOrder"><span data-i18n="set.orderBtn"></span></button>
+            </div>
+            <div class="row">
+              <div class="label"><b data-i18n="set.folder"></b><span data-i18n="set.folderDesc"></span></div>
+              <button class="btn" id="openCfg"><i data-icon="folder"></i><span data-i18n="set.folderBtn"></span></button>
+            </div>
+          </div>
+
+          <p class="muted small about" id="about"></p>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Edit dialog -->
+  <div class="modal-wrap" id="modal" hidden>
+    <div class="modal" role="dialog">
+      <div class="modal-head">
+        <h3 id="modalTitle">Add launcher</h3>
+        <button class="icon-btn" data-close data-i18n-title="modal.cancel"><i data-icon="x"></i></button>
+      </div>
+      <div class="modal-body">
+        <div class="icon-edit">
+          <div class="icon-preview" id="mIconPreview"></div>
+          <div class="icon-actions">
+            <button class="btn small" id="mIconPick"><i data-icon="image"></i><span data-i18n="modal.iconPick"></span></button>
+            <button class="btn small ghost" id="mIconReset" data-i18n="modal.iconReset"></button>
+          </div>
+        </div>
+        <label class="field"><span data-i18n="modal.name"></span><input id="mName" data-i18n-ph="modal.namePh" /></label>
+        <label class="field"><span data-i18n="modal.program"></span>
+          <div class="with-btn"><input id="mTarget" /><button class="btn" id="mBrowse" data-i18n="modal.browse"></button></div>
+          <small class="muted" id="mHint"></small>
+        </label>
+        <label class="field"><span><span data-i18n="modal.args"></span> <em class="muted" data-i18n="modal.optional"></em></span><input id="mArgs" data-i18n-ph="modal.argsPh" /></label>
+        <div class="field"><span data-i18n="modal.color"></span><div class="swatches" id="mColors"></div></div>
+      </div>
+      <div class="modal-foot">
+        <button class="btn danger ghost" id="mDelete" data-i18n="modal.remove"></button>
+        <button class="btn ghost" id="mReset" data-i18n="modal.reset"></button>
+        <div class="spacer"></div>
+        <button class="btn ghost" data-close data-i18n="modal.cancel"></button>
+        <button class="btn primary" id="mSave" data-i18n="modal.save"></button>
+      </div>
+    </div>
+  </div>
+
+  <div class="menu" id="menu" hidden></div>
+  <div class="toasts" id="toasts"></div>
+
+  <script src="locales/zh.js"></script>
+  <script src="locales/zh-TW.js"></script>
+  <script src="locales/ja.js"></script>
+  <script src="locales/ko.js"></script>
+  <script src="locales/hi.js"></script>
+  <script src="locales/bn.js"></script>
+  <script src="locales/id.js"></script>
+  <script src="locales/vi.js"></script>
+  <script src="locales/th.js"></script>
+  <script src="locales/ru.js"></script>
+  <script src="locales/uk.js"></script>
+  <script src="locales/pl.js"></script>
+  <script src="locales/tr.js"></script>
+  <script src="locales/it.js"></script>
+  <script src="locales/nl.js"></script>
+  <script src="locales/cs.js"></script>
+  <script src="locales/fi.js"></script>
+  <script src="locales/el.js"></script>
+  <script src="locales/hu.js"></script>
+  <script src="locales/ro.js"></script>
+  <script src="locales/is.js"></script>
+  <script src="locales/ar.js"></script>
+  <script src="locales/he.js"></script>
+  <script src="locales/fa.js"></script>
+  <script src="i18n.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
