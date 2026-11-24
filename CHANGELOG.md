@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.3.3
+
+- The Fedora/openSUSE `.rpm` package is back in the release.
+
 ## 1.3.2
 
 - One pacman command for CachyOS, Arch and Manjaro, using a download link that always points
