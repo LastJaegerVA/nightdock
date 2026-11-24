@@ -136,7 +136,8 @@ npm run dist:win      # Windows installer + portable zip   → dist/
 npm run dist:linux    # AppImage, .deb, .rpm, .pkg.tar.xz, .tar.gz → dist/
 ```
 
-Pushing a tag like `v1.3.0` builds everything on GitHub and attaches the files to a release
+Raising the version number in `package.json` and pushing to `main` builds everything on GitHub
+and publishes a new release with all files automatically
 (see [`.github/workflows/build.yml`](.github/workflows/build.yml)).
 
 ## Project layout
