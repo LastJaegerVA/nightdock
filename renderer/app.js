@@ -20,6 +20,7 @@ const ICONS = {
   trash: '<path d="M4 7h16M10 11v6M14 11v6M6 7l1 12a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-12M9 7V4.5h6V7"/>',
   image: '<rect x="3.5" y="4.5" width="17" height="15" rx="3"/><circle cx="9" cy="10" r="1.8"/><path d="M20.5 16l-5-5-9.5 9"/>',
   globe: '<circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17M12 3.5c2.3 2.4 3.5 5.2 3.5 8.5s-1.2 6.1-3.5 8.5c-2.3-2.4-3.5-5.2-3.5-8.5s1.2-6.1 3.5-8.5z"/>',
+  download: '<path d="M12 4v11M7 10l5 5 5-5M5 20h14"/>',
   refresh: '<path d="M20 11a8 8 0 0 0-14.6-4.5L4 8M4 4v4h4M4 13a8 8 0 0 0 14.6 4.5L20 16M20 20v-4h-4"/>',
   x: '<path d="M6 6l12 12M18 6L6 18"/>',
   check: '<path d="M5 12.5l4.5 4.5L19 7.5"/>',
@@ -182,6 +183,28 @@ function toast(msg, kind = 'ok', icon) {
   t.innerHTML = `${ic(icon || (kind === 'error' ? 'alert' : 'check'))}<span>${esc(msg)}</span>`;
   $('#toasts').append(t);
   setTimeout(() => { t.classList.add('out'); setTimeout(() => t.remove(), 300); }, kind === 'error' ? 5000 : 2600);
+}
+
+// ───────────────────────── updates ─────────────────────────
+let updateInfo = null; let dismissedUpdate = null;
+function showUpdate(info) {
+  updateInfo = info;
+  const bar = $('#updateBar');
+  if (!info || !info.available || dismissedUpdate === info.version) { bar.hidden = true; return; }
+  $('#updText').textContent = tr('upd.available', { v: info.version });
+  $('#updSub').textContent = tr(info.canInstall ? 'upd.sub' : 'upd.subManual');
+  $('#updGo').hidden = !info.canInstall; $('#updPage').hidden = !!info.canInstall;
+  $$('#updateBar button').forEach((b) => { b.disabled = false; });
+  bar.hidden = false;
+}
+async function startUpdate() {
+  $$('#updateBar button').forEach((b) => { b.disabled = true; });
+  $('#updSub').textContent = tr('upd.downloading', { p: 0 });
+  const r = await hub.installUpdate();
+  if (r.ok) return; // Nightdock closes and starts again in the new version
+  showUpdate(updateInfo);
+  if (r.code === 'upd.noPkexec') { $('#updGo').hidden = true; $('#updPage').hidden = false; }
+  toast(r.code ? tr(r.code) : tr('upd.failed', { error: r.error }), r.code === 'upd.cancelled' ? 'ok' : 'error');
 }
 
 // ───────────────────────── apply settings ─────────────────────────
@@ -570,7 +593,8 @@ function renderSettings() {
   $('#bgImageName').textContent = s.bgImage ? tr('set.bgPic.chosen') : tr('set.bgPic.none');
   setRange($('#bgDim'), s.background === 'wallpaper' ? s.wallDim : s.bgDim);
   setRange($('#cardSize'), s.cardSize);
-  for (const k of ['showSubtitles', 'animations', 'closeToTray', 'startWithSystem', 'startHidden']) $(`#${k}`).checked = !!s[k];
+  for (const k of ['showSubtitles', 'animations', 'closeToTray', 'startWithSystem', 'startHidden', 'checkUpdates']) $(`#${k}`).checked = !!s[k];
+  $('#updStatus').textContent = tr('set.updVersion', { v: window.__version || '' });
   $('#about').textContent = `Nightdock ${window.__version || ''} · ${platform === 'win32' ? 'Windows' : 'Linux'} · ${tr('lib.count', { n: allEntries().length })}`;
   const lang = window.i18n.LANGUAGES.find((l) => l.code === window.i18n.getLanguage());
   $('#langLabel').textContent = cfg.settings.language && cfg.settings.language !== 'auto' ? lang.name : tr('set.lang.auto', { lang: lang.name });
@@ -641,9 +665,26 @@ function wire() {
   });
   $('#bgDim').addEventListener('change', () => save());
   live('cardSize', 'cardSize');
-  for (const k of ['showSubtitles', 'animations', 'closeToTray', 'startWithSystem', 'startHidden']) {
+  for (const k of ['showSubtitles', 'animations', 'closeToTray', 'startWithSystem', 'startHidden', 'checkUpdates']) {
     $(`#${k}`).addEventListener('change', (ev) => { cfg.settings[k] = ev.target.checked; commitSettings(); });
   }
+  // updates
+  $('#updGo').addEventListener('click', startUpdate);
+  $('#updPage').addEventListener('click', () => updateInfo && window.open(updateInfo.page));
+  $('#updNotes').addEventListener('click', () => updateInfo && window.open(updateInfo.page));
+  $('#updLater').addEventListener('click', () => { dismissedUpdate = updateInfo?.version; $('#updateBar').hidden = true; });
+  $('#updCheck').addEventListener('click', async () => {
+    const btn = $('#updCheck'); btn.disabled = true;
+    const info = await hub.checkUpdate(); btn.disabled = false;
+    if (info.error) { toast(tr('upd.checkFailed'), 'error'); return; }
+    if (info.available) { dismissedUpdate = null; showUpdate(info); $('#main').scrollTo({ top: 0, behavior: 'smooth' }); } else toast(tr('upd.latest', { v: info.current }));
+  });
+  hub.onUpdate(showUpdate);
+  hub.onUpdateProgress((p) => {
+    if (p.stage === 'download') $('#updSub').textContent = tr('upd.downloading', { p: p.pct });
+    else $('#updSub').textContent = tr(updateInfo && /pacman|deb|rpm/.test(updateInfo.kind) ? 'upd.password' : 'upd.installing');
+  });
+
   $('#rescanBtn').addEventListener('click', async () => {
     detected = await hub.rescan(); iconCache.clear(); render();
     toast(tr('toast.found', { n: detected.length }), 'ok', 'refresh');

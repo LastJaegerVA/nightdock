@@ -32,6 +32,7 @@ and puts them on one screen. Click a tile and that launcher opens.
 - **Fast to use** — type to search and press Enter, star favourites, drag tiles into your own order
 - **Jump back in** — the launcher you used last waits at the top
 - **Gets out of the way** — after opening a launcher it can stay open, minimize, hide in the tray or close
+- **One-click updates** — an **Update now** button appears when a new version is out ([how it works](#updates))
 - **Make it yours** — 26 themes (8 with their own matching wallpaper), any accent colour, a glow, plain, wallpaper or picture background, bigger or smaller tiles, grid or list view
 - **Speaks your language** — 32 languages, picked automatically from your computer (and right-to-left for Arabic, Hebrew and Persian)
 
@@ -71,9 +72,12 @@ curl -fsSL https://raw.githubusercontent.com/LastJaegerVA/nightdock/main/install
 
 ### Windows
 
-Download [**`Nightdock-Setup.exe`**](https://github.com/LastJaegerVA/nightdock/releases/latest/download/Nightdock-Setup.exe) (always the newest version) and run it.
-No administrator rights needed. Prefer no install? Get `Nightdock-Portable-<version>-windows.zip`,
+Download [**`Nightdock-Windows-Setup.exe`**](https://github.com/LastJaegerVA/nightdock/releases/latest/download/Nightdock-Windows-Setup.exe) (always the newest version) and run it.
+No administrator rights needed. Prefer no install? Get [`Nightdock-Windows-Portable.zip`](https://github.com/LastJaegerVA/nightdock/releases/latest/download/Nightdock-Windows-Portable.zip),
 unzip it and run `Nightdock.exe`.
+
+On the [releases page](https://github.com/LastJaegerVA/nightdock/releases/latest), every file with **Windows** in its name is for
+Windows; the rest are for Linux.
 
 > **Windows says "Windows protected your PC"?** That happens because Nightdock isn't signed
 > with a paid code-signing certificate yet. Click **More info → Run anyway**. You can check the
@@ -89,10 +93,10 @@ then open a terminal in the folder you saved it to (usually `cd ~/Downloads`):
 
 | Your system | File | Command |
 |---|---|---|
-| CachyOS, Arch, Manjaro | `nightdock-<version>-x86_64.pkg.tar.xz` | `sudo pacman -U ./nightdock-*.pkg.tar.xz` |
-| Ubuntu, Mint, Pop!_OS, Debian | `nightdock_<version>_amd64.deb` | `sudo apt install ./nightdock_*.deb` |
-| Fedora | `nightdock-<version>.x86_64.rpm` | `sudo dnf install ./nightdock*.rpm` |
-| Any other Linux | `Nightdock-<version>-linux-x86_64.AppImage` | `chmod +x Nightdock-*.AppImage && ./Nightdock-*.AppImage` |
+| CachyOS, Arch, Manjaro | `nightdock-x86_64.pkg.tar.xz` | `sudo pacman -U ./nightdock-x86_64.pkg.tar.xz` |
+| Ubuntu, Mint, Pop!_OS, Debian | `Nightdock-Linux-Ubuntu-Debian.deb` | `sudo apt install ./Nightdock-Linux-Ubuntu-Debian.deb` |
+| Fedora, openSUSE | `Nightdock-Linux-Fedora.rpm` | `sudo dnf install ./Nightdock-Linux-Fedora.rpm` |
+| Any other Linux | `Nightdock-Linux-x86_64.AppImage` | `chmod +x Nightdock-Linux-x86_64.AppImage && ./Nightdock-Linux-x86_64.AppImage` |
 
 If the AppImage won't start, run it with `--appimage-extract-and-run` (your system is missing `libfuse2`).
 
@@ -116,8 +120,25 @@ Nightdock stores your launchers and settings only on your own computer:
 - Windows: `%APPDATA%\Nightdock`
 - Linux: `~/.config/Nightdock`
 
-It doesn't collect data, track you or connect to the internet. The only network use is when
-a launcher you open does so itself.
+It doesn't collect data or track you. The only time Nightdock itself goes online is the
+update check described below; anything else is a launcher you open doing so itself.
+
+## Updates
+
+When a new version is out, Nightdock shows an **Update now** button. One click downloads it,
+installs it and restarts Nightdock. How it stays safe and honest:
+
+- It only asks Nightdock's own GitHub page ([the latest release](https://github.com/LastJaegerVA/nightdock/releases/latest))
+  whether there is a newer version. Nothing about you or your launchers is sent.
+- It never installs anything until you press **Update now**.
+- Every download is checked against the SHA-256 checksum GitHub publishes for that file. If it
+  doesn't match, it is deleted and nothing is installed.
+- It installs the same way you would by hand: the normal Windows installer, the same AppImage,
+  or your Linux package manager, which shows its own password prompt (Nightdock never sees it).
+- The portable Windows zip and the `.tar.gz` can't update themselves; they get a **Download** button instead.
+- Don't want it? Turn off **Settings → Updates → Check for updates**.
+
+All of it is in one readable file: [`src/updater.js`](src/updater.js).
 
 ## Build it yourself
 

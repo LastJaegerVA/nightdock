@@ -33,6 +33,7 @@
   "set.accent": "強調色", "set.accentDesc": "用於按鈕、醒目提示和背景光暈",
   "set.bg": "背景", "set.bgDesc": "光暈、純色或你自己的圖片", "set.bg.glow": "光暈", "set.bg.plain": "純色", "set.bg.picture": "圖片",
   "set.bg.wallpaper": "桌布", "set.wall": "桌布", "set.wallDesc": "為各個主題量身繪製，也能搭配任何主題",
+  "upd.available": "Nightdock {v} 已準備好", "upd.sub": "按下「立即更新」，Nightdock 會以新版本重新啟動。", "upd.subManual": "從 GitHub 下載新版本。", "upd.go": "立即更新", "upd.notes": "新功能", "upd.later": "稍後", "upd.page": "下載", "upd.downloading": "正在下載… {p}%", "upd.installing": "正在安裝…", "upd.password": "請在開啟的視窗中輸入密碼以完成更新。", "upd.hash": "下載的檔案與 GitHub 上的校驗碼不符，因此沒有安裝。請稍後再試。", "upd.cancelled": "已取消更新。", "upd.noPkexec": "無法自動安裝，請改用下載頁面。", "upd.failed": "更新失敗：{error}", "upd.latest": "你已是最新版本（{v}）。", "upd.checkFailed": "無法連線到 GitHub，請檢查網路連線。", "set.updates": "更新", "set.upd": "檢查更新", "set.updDesc": "會不時查看 Nightdock 的 GitHub 頁面。在你按下「立即更新」前不會安裝任何東西。", "set.updNow": "尋找新版本", "set.updNowBtn": "立即檢查", "set.updVersion": "你正在使用 Nightdock {v}",
   "set.bgPic": "背景圖片", "set.bgPic.none": "尚未選擇圖片", "set.bgPic.chosen": "已選擇圖片，隨時都能更換", "set.bgPic.btn": "選擇圖片",
   "set.dim": "圖片暗度", "set.dimDesc": "背景越暗，磚塊越容易閱讀",
   "set.size": "磚塊大小", "set.sizeDesc": "格狀檢視中磚塊的大小",

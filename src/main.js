@@ -6,6 +6,7 @@ const crypto = require('crypto');
 const { pathToFileURL } = require('url');
 const { spawn } = require('child_process');
 const { detectLaunchers, findThemeIcon, IS_WIN } = require('./detect');
+const updater = require('./updater');
 
 app.setName('Nightdock');
 if (!app.requestSingleInstanceLock()) { app.quit(); process.exit(0); }
@@ -44,6 +45,7 @@ const DEFAULTS = {
     language: 'auto', theme: 'midnight', accent: '#7c8cff', background: 'aurora', bgImage: '', bgDim: 55, wallpaper: 'nordlys', wallDim: 20,
     cardSize: 180, view: 'grid', sort: 'manual', showSubtitles: true, animations: true,
     afterLaunch: 'minimize', closeToTray: false, startWithSystem: false, startHidden: false,
+    checkUpdates: true,
   },
 };
 
@@ -248,6 +250,32 @@ app.on('before-quit', () => { quitting = true; });
 app.whenReady().then(() => {
   Menu.setApplicationMenu(null);
   createWindow();
+  // Look for a new version a little after start-up and every 6 hours (can be turned off in Settings).
+  setTimeout(autoCheck, 8000);
+  setInterval(autoCheck, 6 * 60 * 60 * 1000);
+});
+
+// ─────────────────────────── updates ───────────────────────────
+let lastUpdate = null;
+async function autoCheck() {
+  if (config.settings.checkUpdates === false) return;
+  try {
+    lastUpdate = await updater.check();
+    if (lastUpdate.available) win?.webContents.send('update-available', lastUpdate);
+  } catch (e) { console.error('update check failed', e.message); }
+}
+ipcMain.handle('update-check', async () => {
+  try {
+    lastUpdate = await updater.check();
+    return lastUpdate;
+  } catch (e) { return { error: e.message }; }
+});
+ipcMain.handle('update-install', async () => {
+  try {
+    if (!lastUpdate || !lastUpdate.available) lastUpdate = await updater.check();
+    await updater.install(lastUpdate, (p) => win?.webContents.send('update-progress', p), () => { quitting = true; app.quit(); });
+    return { ok: true };
+  } catch (e) { return { ok: false, code: e.code, error: e.message }; }
 });
 app.on('window-all-closed', () => app.quit());
 

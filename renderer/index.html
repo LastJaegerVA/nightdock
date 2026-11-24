@@ -38,6 +38,16 @@
     </aside>
 
     <main id="main">
+      <div class="update-bar" id="updateBar" hidden>
+        <div class="upd-ic"><i data-icon="download"></i></div>
+        <div class="upd-txt"><b id="updText"></b><span id="updSub"></span></div>
+        <div class="upd-btns">
+          <button class="btn ghost" id="updNotes" data-i18n="upd.notes"></button>
+          <button class="btn ghost" id="updLater" data-i18n="upd.later"></button>
+          <button class="btn primary" id="updGo"><i data-icon="download"></i><span data-i18n="upd.go"></span></button>
+          <button class="btn primary" id="updPage" hidden><i data-icon="download"></i><span data-i18n="upd.page"></span></button>
+        </div>
+      </div>
       <!-- LIBRARY -->
       <section id="libraryView">
         <div class="toolbar">
@@ -138,6 +148,18 @@
             <div class="row">
               <div class="label"><b data-i18n="set.hidden"></b><span data-i18n="set.hiddenDesc"></span></div>
               <label class="toggle"><input type="checkbox" id="startHidden" /><span></span></label>
+            </div>
+          </div>
+
+          <div class="group">
+            <h2 data-i18n="set.updates"></h2>
+            <div class="row">
+              <div class="label"><b data-i18n="set.upd"></b><span data-i18n="set.updDesc"></span></div>
+              <label class="toggle"><input type="checkbox" id="checkUpdates" /><span></span></label>
+            </div>
+            <div class="row">
+              <div class="label"><b data-i18n="set.updNow"></b><span id="updStatus"></span></div>
+              <button class="btn" id="updCheck"><i data-icon="refresh"></i><span data-i18n="set.updNowBtn"></span></button>
             </div>
           </div>
 

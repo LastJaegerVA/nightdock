@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.4.1 — 2026-11-24
+
+- One-click updates: when a new version is on GitHub, an **Update now** button appears. Downloads are checked against GitHub's SHA-256 checksum before anything is installed. Turn it off in Settings → Updates.
+- Clearer download names: every Windows file has "Windows" in its name, and the Linux files have "Linux" (the Arch package keeps its short name so the pacman command still works). The Windows installer is now `Nightdock-Windows-Setup.exe`.
+
 ## 1.4.0 — 2026-11-24
 
 - 8 new themes, each with its own matching wallpaper: Nordlys, Fjord, Neon City, Deep Space, Dunes, Lava, Blossom and Glacier (26 themes in all).

@@ -15,4 +15,8 @@ contextBridge.exposeInMainWorld('hub', {
   win: (a) => ipcRenderer.send('win', a),
   onMaximized: (cb) => ipcRenderer.on('maximized', (_e, v) => cb(v)),
   onLaunchId: (cb) => ipcRenderer.on('launch-id', (_e, id) => cb(id)),
+  checkUpdate: () => ipcRenderer.invoke('update-check'),
+  installUpdate: () => ipcRenderer.invoke('update-install'),
+  onUpdate: (cb) => ipcRenderer.on('update-available', (_e, info) => cb(info)),
+  onUpdateProgress: (cb) => ipcRenderer.on('update-progress', (_e, p) => cb(p)),
 });

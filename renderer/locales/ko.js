@@ -33,6 +33,7 @@
   "set.accent": "강조 색", "set.accentDesc": "버튼, 강조 표시, 배경 빛에 사용됩니다",
   "set.bg": "배경", "set.bgDesc": "빛, 단색 또는 직접 고른 이미지", "set.bg.glow": "빛", "set.bg.plain": "단색", "set.bg.picture": "이미지",
   "set.bg.wallpaper": "배경화면", "set.wall": "배경화면", "set.wallDesc": "테마에 맞춰 만들었고, 어떤 테마와도 어울립니다",
+  "upd.available": "Nightdock {v} 준비 완료", "upd.sub": "지금 업데이트를 누르면 Nightdock이 새 버전으로 다시 시작됩니다.", "upd.subManual": "GitHub에서 새 버전을 내려받으세요.", "upd.go": "지금 업데이트", "upd.notes": "새로운 기능", "upd.later": "나중에", "upd.page": "다운로드", "upd.downloading": "다운로드 중… {p}%", "upd.installing": "설치 중…", "upd.password": "열린 창에 비밀번호를 입력하면 완료됩니다.", "upd.hash": "내려받은 파일이 GitHub의 체크섬과 맞지 않아 설치하지 않았습니다. 나중에 다시 시도하세요.", "upd.cancelled": "업데이트가 취소되었습니다.", "upd.noPkexec": "자동으로 설치할 수 없습니다. 다운로드 페이지를 이용하세요.", "upd.failed": "업데이트 실패: {error}", "upd.latest": "최신 버전을 사용 중입니다 ({v}).", "upd.checkFailed": "GitHub에 연결할 수 없습니다. 인터넷 연결을 확인하세요.", "set.updates": "업데이트", "set.upd": "업데이트 확인", "set.updDesc": "가끔 Nightdock의 GitHub 페이지를 확인합니다. 지금 업데이트를 누르기 전에는 아무것도 설치되지 않습니다.", "set.updNow": "새 버전 찾기", "set.updNowBtn": "지금 확인", "set.updVersion": "Nightdock {v} 사용 중",
   "set.bgPic": "배경 이미지", "set.bgPic.none": "선택한 이미지 없음", "set.bgPic.chosen": "이미지를 선택했습니다. 언제든 바꿀 수 있습니다", "set.bgPic.btn": "이미지 선택",
   "set.dim": "이미지 어둡게", "set.dimDesc": "어두울수록 타일이 잘 보입니다",
   "set.size": "타일 크기", "set.sizeDesc": "격자 보기에서 타일의 크기",

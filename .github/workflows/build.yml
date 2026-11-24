@@ -69,16 +69,20 @@ jobs:
           grep -iE "error|warning:|failed|not found|cannot|denied|No such" rpm-debug.log | tail -12 | cut -c1-300 | while IFS= read -r line; do echo "::warning title=rpm::$line"; done
           rpmbuild --version || true
 
-      # Copies without the version number, so links like
+      # Clear file names: "Windows" or "Linux" in each name, and no version number, so links like
       # .../releases/latest/download/nightdock-x86_64.pkg.tar.xz always get the newest version.
-      - name: Add version-free file names
+      # (The Arch package keeps its short name so the published pacman command keeps working.)
+      - name: Give the files clear names
         run: |
           cd dist
-          cp Nightdock-Setup-*.exe Nightdock-Setup.exe
-          cp nightdock-*-x86_64.pkg.tar.xz nightdock-x86_64.pkg.tar.xz
-          cp nightdock_*_amd64.deb nightdock_amd64.deb
-          cp Nightdock-*-linux-x86_64.AppImage Nightdock-x86_64.AppImage
-          if ls nightdock-*.x86_64.rpm >/dev/null 2>&1; then cp nightdock-*.x86_64.rpm nightdock.x86_64.rpm; fi
+          mv Nightdock-Setup-*.exe Nightdock-Windows-Setup.exe
+          mv Nightdock-Portable-*-windows.zip Nightdock-Windows-Portable.zip
+          mv Nightdock-*-linux-x86_64.AppImage Nightdock-Linux-x86_64.AppImage
+          mv Nightdock-*-linux-x64.tar.gz Nightdock-Linux-x64.tar.gz
+          mv nightdock_*_amd64.deb Nightdock-Linux-Ubuntu-Debian.deb
+          mv nightdock-*-x86_64.pkg.tar.xz nightdock-x86_64.pkg.tar.xz
+          if ls nightdock-*.x86_64.rpm >/dev/null 2>&1; then mv nightdock-*.x86_64.rpm Nightdock-Linux-Fedora.rpm; fi
+          ls -la
 
       - name: Is this a new version?
         id: version
@@ -114,7 +118,7 @@ jobs:
           name: Nightdock ${{ steps.version.outputs.version }}
           make_latest: true
           body: |
-            **Windows:** download [`Nightdock-Setup.exe`](https://github.com/${{ github.repository }}/releases/latest/download/Nightdock-Setup.exe) and run it.
+            **Windows:** download [`Nightdock-Windows-Setup.exe`](https://github.com/${{ github.repository }}/releases/latest/download/Nightdock-Windows-Setup.exe) and run it (or the portable zip).
 
             **CachyOS / Arch / Manjaro:**
             ```
@@ -125,6 +129,9 @@ jobs:
             ```
             curl -fsSL https://raw.githubusercontent.com/${{ github.repository }}/main/install.sh | bash
             ```
+
+            Files: everything named `Windows` is for Windows; everything named `Linux`, plus `nightdock-x86_64.pkg.tar.xz` (Arch/CachyOS), is for Linux.
+            Nightdock 1.4.0 and newer can also update itself: Settings → Updates.
 
             What's new: see the [changelog](https://github.com/${{ github.repository }}/blob/main/CHANGELOG.md).
           generate_release_notes: true

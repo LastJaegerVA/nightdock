@@ -109,6 +109,16 @@ FunctionEnd
 Function un.onInit
 FunctionEnd
 
+; Used by Nightdock's own "Update now" button: start Nightdock again after a quiet update.
+Function .onInstSuccess
+  ${GetParameters} $0
+  ClearErrors
+  ${GetOptions} $0 "/RELAUNCH" $1
+  ${IfNot} ${Errors}
+    Exec '"$INSTDIR\${EXENAME}"'
+  ${EndIf}
+FunctionEnd
+
 ; ── install ───────────────────────────────────────────────────────────
 Section "-Prepare"
   !insertmacro CloseApp

@@ -33,6 +33,7 @@
   "set.accent": "アクセントカラー", "set.accentDesc": "ボタン、ハイライト、背景の光に使われます",
   "set.bg": "背景", "set.bgDesc": "光、単色、または自分の画像", "set.bg.glow": "光", "set.bg.plain": "単色", "set.bg.picture": "画像",
   "set.bg.wallpaper": "壁紙", "set.wall": "壁紙", "set.wallDesc": "テーマに合わせて作られ、どのテーマでも使えます",
+  "upd.available": "Nightdock {v} の準備ができました", "upd.sub": "「今すぐ更新」を押すと、Nightdock が新しいバージョンで再起動します。", "upd.subManual": "新しいバージョンを GitHub からダウンロードしてください。", "upd.go": "今すぐ更新", "upd.notes": "新機能", "upd.later": "あとで", "upd.page": "ダウンロード", "upd.downloading": "ダウンロード中… {p}%", "upd.installing": "インストール中…", "upd.password": "開いたウィンドウにパスワードを入力して完了してください。", "upd.hash": "ダウンロードしたファイルが GitHub のチェックサムと一致しなかったため、インストールしませんでした。あとでもう一度お試しください。", "upd.cancelled": "更新をキャンセルしました。", "upd.noPkexec": "自動でインストールできませんでした。ダウンロードページを使ってください。", "upd.failed": "更新に失敗しました：{error}", "upd.latest": "最新バージョンです（{v}）。", "upd.checkFailed": "GitHub に接続できません。インターネット接続を確認してください。", "set.updates": "アップデート", "set.upd": "アップデートを確認", "set.updDesc": "ときどき Nightdock の GitHub ページを確認します。「今すぐ更新」を押すまで何もインストールされません。", "set.updNow": "新しいバージョンを探す", "set.updNowBtn": "今すぐ確認", "set.updVersion": "Nightdock {v} を使用中",
   "set.bgPic": "背景画像", "set.bgPic.none": "画像が選ばれていません", "set.bgPic.chosen": "画像を選択済み。いつでも変更できます", "set.bgPic.btn": "画像を選ぶ",
   "set.dim": "画像の暗さ", "set.dimDesc": "暗くするとタイルが読みやすくなります",
   "set.size": "タイルのサイズ", "set.sizeDesc": "グリッド表示でのタイルの大きさ",

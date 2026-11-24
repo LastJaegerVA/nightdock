@@ -331,3 +331,14 @@ input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 18px;
 [dir="rtl"] .search kbd, [dir="rtl"] code { direction: ltr; unicode-bidi: isolate; }
 [dir="rtl"] .modal-head, [dir="rtl"] .modal-body, [dir="rtl"] .menu button { text-align: right; }
 [dir="rtl"] .win-controls, [dir="rtl"] .titlebar { direction: ltr; }
+
+/* ───────── update bar ───────── */
+.update-bar { display: flex; align-items: center; gap: 14px; margin: 16px 18px 0; padding: 12px 14px; border-radius: 14px;
+  background: var(--accent-soft); border: 1px solid var(--accent-line); animation: updIn .3s var(--ease); }
+.update-bar[hidden] { display: none; }
+.update-bar .upd-ic { width: 36px; height: 36px; flex: none; border-radius: 10px; display: grid; place-items: center; background: var(--accent); color: var(--on-accent, #fff); }
+.update-bar .upd-txt { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.update-bar .upd-txt span { color: var(--muted); font-size: 12.5px; }
+.update-bar .upd-btns { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
+.update-bar button:disabled { opacity: .55; cursor: default; }
+@keyframes updIn { from { opacity: 0; transform: translateY(-6px); } }
