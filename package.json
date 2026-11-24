@@ -4,7 +4,7 @@
   "version": "1.3.3",
   "description": "Every game launcher in one place",
   "author": {
-    "name": "Jonas Olsen-Sund",
+    "name": "LastJaegerVA",
     "email": "LastJaegerVA@users.noreply.github.com",
     "url": "https://github.com/LastJaegerVA"
   },
@@ -85,7 +85,7 @@
       "icon": "build/icon.png",
       "category": "Game",
       "executableName": "nightdock",
-      "maintainer": "Jonas Olsen-Sund <LastJaegerVA@users.noreply.github.com>",
+      "maintainer": "LastJaegerVA <LastJaegerVA@users.noreply.github.com>",
       "synopsis": "Every game launcher in one place",
       "desktop": {
         "StartupWMClass": "Nightdock"

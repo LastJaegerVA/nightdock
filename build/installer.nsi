@@ -10,7 +10,7 @@ SetCompressorDictSize 64
 
 !define APPNAME   "Nightdock"
 !define EXENAME   "Nightdock.exe"
-!define PUBLISHER "Jonas Olsen-Sund"
+!define PUBLISHER "LastJaegerVA"
 !define UNINSTEXE "Uninstall Nightdock.exe"
 !define UNINSTKEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\Nightdock"
 !define REGKEY    "Software\Nightdock"
