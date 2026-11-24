@@ -26,7 +26,7 @@ exports.default = async function afterPack(context) {
   v.setStringValues({ lang: 1033, codepage: 1200 }, {
     FileDescription: 'Nightdock', ProductName: 'Nightdock', CompanyName: 'LastJaegerVA',
     InternalName: 'Nightdock', OriginalFilename: `${productFilename}.exe`,
-    LegalCopyright: `Copyright © ${new Date().getFullYear()} LastJaegerVA`,
+    LegalCopyright: `Copyright © ${new Date().getFullYear()} Jonas Olsen-Sund (LastJaegerVA)`,
     FileVersion: info.version, ProductVersion: info.version,
   });
   v.outputToResourceEntries(res.entries);
