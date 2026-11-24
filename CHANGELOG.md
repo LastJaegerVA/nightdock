@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.3.5 — 2026-11-24
+
+- Copyright is now "Jonas Olsen-Sund (LastJaegerVA)" in the installer and app details.
+- New app ID without a personal name (io.github.lastjaegerva.nightdock). If you pinned Nightdock to the Windows taskbar, pin it again.
+
 ## 1.3.4 — 2026-11-24
 
 - The author and publisher name is now LastJaegerVA (installer, app details, Linux packages, license).
