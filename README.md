@@ -156,7 +156,8 @@ Bug reports, ideas and translation fixes are very welcome — see [CONTRIBUTING.
 
 ## License
 
-Nightdock is free and open source under the [MIT License](LICENSE).
+Copyright © 2026 LastJaegerVA. Nightdock is free and open source under the [MIT License](LICENSE):
+anyone may use, change and share it, as long as they keep this copyright notice.
 It includes the Inter font (SIL Open Font License 1.1) and is built with Electron.
 See [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) for the full list and trademark notes.
 
